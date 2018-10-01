@@ -1,0 +1,84 @@
+<particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles>
+
+<main class="container">
+	<h1 class="form-heading text-center sumar">S.U.M.AR.</h1>
+	<h2 class="subtitulo text-center">Sistema Único Médico Argentino</h2>
+		<div class="login-form">
+			<div class="main-div">
+    			<div>
+   					<h1 class="ingreso">Ingreso</h1>
+   				</div>
+    			<form #loginForm="ngForm" (ngSubmit)="postLogin(loginForm)" id="Login">
+        			<div class="form-group">
+            			<input type="text" class="form-control" required placeholder="DNI" [(ngModel)]="loginInfo.dni" #dni="ngModel" name="dni">
+        			</div>
+        			<div class="form-group">
+            			<input type="password" class="form-control" required placeholder="Contraseña" [(ngModel)]="loginInfo.password" #password="ngModel" name="password">
+        			</div>
+                    <div *ngIf="(alerta && (!loginInfo.dni || !loginInfo.password)) || alerta" class="alert alert-danger">
+                        <strong>Error!</strong> {{alerta}}
+                    </div>
+        			<div class="forgot">
+        				<a href="reset.html">Olvidaste tu contraseña?</a>
+					</div>
+        			<button type="submit" class="btn btn-primary boton-login">INGRESAR</button>
+        			<div class="text-center">
+        				<a class="btn btn-xs btn-info text-white" data-toggle="modal" data-target="#nuevaCuenta"><span>Crear nueva cuenta</span></a>
+					</div>
+    			</form>
+    		</div>
+    	</div>
+</main>
+
+<!-- Modal nueva cuenta -->
+<div class="modal fade" id="nuevaCuenta" role="dialog" aria-labelledby="cuentaNuevaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-nueva-cuenta">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #nuevaCuentaForm="ngForm">
+                    <div class="row form-group col-md-12">
+                        <div class="col-md-6">
+                            <label class="control-label">Nombre/s:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.nombre" #nombre="ngModel" name="nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Apellido/s:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.apellido" #apellido="ngModel" name="apellido">
+                        </div>
+                    </div>
+                    <div class="row form-group col-md-12">
+                        <div class="col-md-6">
+                            <label class="control-label">Fecha Nacimiento:</label><input type="date" class="form-control" required [(ngModel)]="nuevaCuenta.fechaNacimiento" #fechaNacimiento="ngModel" name="fechaNacimiento">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Sexo:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.sexo" #sexo="ngModel" name="sexo">
+                        </div>
+                    </div>
+                    <div class="row form-group col-md-12">
+                        <div class="col-md-6">
+                            <label class="control-label">Contraseña:</label><input type="password" class="form-control" required [(ngModel)]="nuevaCuenta.password" #password="ngModel" name="password">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Confirmar Contraseña:</label><input type="password" class="form-control" required [(ngModel)]="nuevaCuenta.confirmPassword" #confirmPassword="ngModel" name="confirmPassword">
+                        </div>
+                    </div>
+                    <div class="row form-group col-md-12">
+                        <div class="col-md-6">
+                            <label class="control-label">DNI:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.dni" #dni="ngModel" name="dni">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Email:</label><input type="email" class="form-control" required [(ngModel)]="nuevaCuenta.email" #email="ngModel" name="email">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="postNuevaCuenta();" class="btn btn-primary">Generar cuenta</button>
+            </div>
+        </div>
+    </div>
+</div>
