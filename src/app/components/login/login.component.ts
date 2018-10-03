@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { NgForm } from '@angular/forms'
 import { Router } from '@angular/router';
+
+//Servicios
 import { RestLoginService } from '../../services/login/restLogin.service'; 
 import { RestNuevaCuentaService } from '../../services/crearCuenta/restNuevaCuenta.service';
 
@@ -14,28 +16,33 @@ import NuevaCuenta from '../../classes/NuevaCuenta';
 })
 export class LoginComponent implements OnInit {
 
+    // Parámetros de las partículas
 	myStyle: object = {};
 	myParams: object = {};
 	width: number = 100;
 	height: number = 100;
 
+    // Clase para bindear el form de nueva cuenta
     nuevaCuenta: NuevaCuenta = new NuevaCuenta();
 
+    // Objeto para bindear la info del login
     loginInfo: any = {
         "dni": null,
         "password": null
     }
 
+    // Property usada para ir determinando si hay una alerta cual es
     alerta: string = undefined;
-
 
 	constructor( private router: Router,
                  private restLoginService: RestLoginService,
-                 private restNuevaCuentaService: RestNuevaCuentaService ) {
+                 private restNuevaCuentaService: RestNuevaCuentaService) {
 
     }
 
 	ngOnInit() {
+
+        //--------------------------- Inicio parámetros de partículas ------------------------------------
 		this.myStyle = {
             'position': 'fixed',
             'width': '100%',
@@ -121,33 +128,41 @@ export class LoginComponent implements OnInit {
             	detect_on: 'canvas'
             }
     	};
+
+        //-------------------------- Fin parámetros de partículas ---------------------------------
 	}
 
+    // Valida si el DNI ingresado es sólo números
     dniValido = (dni:string): boolean => {
         let regEx = new RegExp("^[0-9]*$");
         return regEx.test(dni);
     } 
 
-    postLogin = (loginForm: NgForm) => {
-        let dni = this.loginInfo.dni;
-        let password = this.loginInfo.password;
-        if(!this.dniValido(dni)){
-            console.log('no valido');
-        } else {
-            console.log('valido');
-        }
-        if(dni && password && this.dniValido(dni)){
-            this.restLoginService.login(dni, password).then((data) => {
-                if(data == 'success')
-                    this.router.navigate(['/home']);
-            }).catch(console.log);
-        } else if(!dni || !password){
-            this.alerta = "Debe completar todos los datos";
-        } else {
-            this.alerta = "El DNI no es un DNI válido";
-        }
+    // Guardo token y rol en sessionStorage
+    guardarSesion = (token, rol) => {
+        window.sessionStorage.setItem('token', token);
+        window.sessionStorage.setItem('rol', rol);
     }
 
+    // Validación de los datos del formulario de login y llamada al servicio de login
+    postLogin = () => {
+        let dni = this.loginInfo.dni;
+        let password = this.loginInfo.password;
+        if(dni && password && this.dniValido(dni)){
+            this.restLoginService.login(dni, password).then((data) => {
+                if(data.usuarioId && data.success == 'true'){
+                    this.guardarSesion(data.token, data.usuario_rol);
+                    if(data.usuario_rol == 'administrador')
+                       this.router.navigate(['/home']);
+                }
+            }).catch(console.log);
+        } else if(!dni || !password)
+                this.alerta = "Debe completar todos los datos";
+               else 
+                this.alerta = "El DNI ingresado no es un DNI válido";
+    }
+
+    // Validación de los datos del formulario de nueva cuenta y llamada al servicio de nueva cuenta.
     postNuevaCuenta = () => {
         this.restNuevaCuentaService.crearNuevaCuenta(this.nuevaCuenta).then((data) => {
             if(data == 'success')

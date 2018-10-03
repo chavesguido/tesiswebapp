@@ -8,7 +8,7 @@
     			<div>
    					<h1 class="ingreso">Ingreso</h1>
    				</div>
-    			<form #loginForm="ngForm" (ngSubmit)="postLogin(loginForm)" id="Login">
+    			<form #loginForm="ngForm" (ngSubmit)="postLogin()" id="Login">
         			<div class="form-group">
             			<input type="text" class="form-control" required placeholder="DNI" [(ngModel)]="loginInfo.dni" #dni="ngModel" name="dni">
         			</div>
@@ -16,7 +16,7 @@
             			<input type="password" class="form-control" required placeholder="Contraseña" [(ngModel)]="loginInfo.password" #password="ngModel" name="password">
         			</div>
                     <div *ngIf="(alerta && (!loginInfo.dni || !loginInfo.password)) || alerta" class="alert alert-danger">
-                        <strong>Error!</strong> {{alerta}}
+                        <strong>Ups!</strong> {{alerta}}
                     </div>
         			<div class="forgot">
         				<a href="reset.html">Olvidaste tu contraseña?</a>
@@ -30,7 +30,7 @@
     	</div>
 </main>
 
-<!-- Modal nueva cuenta -->
+<!-- Modal nueva cuenta con form-->
 <div class="modal fade" id="nuevaCuenta" role="dialog" aria-labelledby="cuentaNuevaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-nueva-cuenta">
