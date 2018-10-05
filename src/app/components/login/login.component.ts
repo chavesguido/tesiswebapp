@@ -150,7 +150,11 @@ export class LoginComponent implements OnInit {
         let password = this.loginInfo.password;
         if(dni && password && this.dniValido(dni)){
             this.restLoginService.login(dni, password).then((data) => {
-                if(data.usuarioId && data.success == 'true'){
+                if(data == 400){
+                    this.alerta = "Usuario o contraseña incorrectos.";
+                    return;
+                }
+                if(data.usuarioId && data.usuario_rol && data.success == 'true'){
                     this.guardarSesion(data.token, data.usuario_rol);
                     if(data.usuario_rol == 'administrador')
                        this.router.navigate(['/home']);
@@ -164,10 +168,14 @@ export class LoginComponent implements OnInit {
 
     // Validación de los datos del formulario de nueva cuenta y llamada al servicio de nueva cuenta.
     postNuevaCuenta = () => {
-        this.restNuevaCuentaService.crearNuevaCuenta(this.nuevaCuenta).then((data) => {
-            if(data == 'success')
-                this.router.navigate(['/home']);
-        }).catch(console.log);
+        this.alerta = this.nuevaCuenta.validarDatos();
+        if(this.alerta == 'success'){
+            this.restNuevaCuentaService.crearNuevaCuenta(this.nuevaCuenta)
+            .then((data) => {
+                if(data == 'success')
+                    this.router.navigate(['/home']);
+            }).catch(console.log);
+        }
     }
 
 }

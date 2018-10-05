@@ -44,18 +44,22 @@
                 <form #nuevaCuentaForm="ngForm">
                     <div class="row form-group col-md-12">
                         <div class="col-md-6">
-                            <label class="control-label">Nombre/s:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.nombre" #nombre="ngModel" name="nombre">
+                            <label class="control-label">Nombre/s:</label><input type="text" class="form-control" [(ngModel)]="nuevaCuenta.nombre" #nombre="ngModel" name="nombre">
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label">Apellido/s:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.apellido" #apellido="ngModel" name="apellido">
+                            <label class="control-label">Apellido/s:</label><input type="text" class="form-control" [(ngModel)]="nuevaCuenta.apellido" #apellido="ngModel" name="apellido">
                         </div>
                     </div>
                     <div class="row form-group col-md-12">
                         <div class="col-md-6">
-                            <label class="control-label">Fecha Nacimiento:</label><input type="date" class="form-control" required [(ngModel)]="nuevaCuenta.fechaNacimiento" #fechaNacimiento="ngModel" name="fechaNacimiento">
+                            <label class="control-label">Fecha Nacimiento:</label><input type="date" class="form-control" [(ngModel)]="nuevaCuenta.fechaNacimiento" #fechaNacimiento="ngModel" name="fechaNacimiento">
                         </div>
                         <div class="col-md-6">
-                            <label class="control-label">Sexo:</label><input type="text" class="form-control" required [(ngModel)]="nuevaCuenta.sexo" #sexo="ngModel" name="sexo">
+                            <label class="control-label">Sexo:</label>
+                                    <select class="form-control" [(ngModel)]="nuevaCuenta.sexo" #sexo="ngModel" name="sexo">
+                                        <option value="masculino">Masculino</option>
+                                        <option value="femenino">Femenino</option>
+                                    </select>
                         </div>
                     </div>
                     <div class="row form-group col-md-12">
@@ -74,10 +78,15 @@
                             <label class="control-label">Email:</label><input type="email" class="form-control" required [(ngModel)]="nuevaCuenta.email" #email="ngModel" name="email">
                         </div>
                     </div>
+                    <div class="col-md-12">
+                         <div *ngIf="( alerta && alerta != 'success')" class="alert alert-danger">
+                            <strong>Ups!</strong> {{alerta}}
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" (click)="postNuevaCuenta();" class="btn btn-primary">Generar cuenta</button>
+                <button type="button" (click)="postNuevaCuenta();" class="btn btn-primary" data-dismiss="modal">Generar cuenta</button>
             </div>
         </div>
     </div>

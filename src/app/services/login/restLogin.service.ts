@@ -18,7 +18,12 @@ export class RestLoginService {
 				dni,
 				password
 			})
-		}).then(response =>  response.json())
+		}).then((response) =>  { 
+			if(response.status == 200) 
+				return response.json();
+			else 
+				return response.status; 
+		})
 		.catch(console.log);
 	}
 
