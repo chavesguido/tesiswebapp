@@ -37,6 +37,9 @@ export class LoginComponent implements OnInit {
     // Property usada para ir determinando si hay una alerta en el form de nueva cuenta cual es
     alertaNuevaCuenta: string = undefined;
 
+    // Property usada para determinar info a mostrar al usuario
+    infoNuevaCuenta: string = undefined;
+
 	constructor( private router: Router,
                  private restLoginService: RestLoginService,
                  private restNuevaCuentaService: RestNuevaCuentaService) {
@@ -158,7 +161,7 @@ export class LoginComponent implements OnInit {
                 }
                 if(data.usuarioId && data.usuario_rol && data.success == 'true'){
                     this.guardarSesion(data.token, data.usuario_rol);
-                    if(data.usuario_rol == 'administrador')
+                    if(data.usuario_rol == 'paciente')
                        this.router.navigate(['/home']);
                 }
             }).catch(console.log);
@@ -178,8 +181,8 @@ export class LoginComponent implements OnInit {
                     this.alertaNuevaCuenta = 'Error conectando con el servidor.';
                 if(response == 500)
                     this.alertaNuevaCuenta = 'Error interno del servidor. Intente mas tarde';
-                console.log(response);
-                this.router.navigate(['/home']);
+                // window.location.reload();
+                this.infoNuevaCuenta = 'Gracias por confiar en nosotros, solo necesitás realizar un paso más para completar tu registro. Hemos enviado un email a tu casilla de correos. Por favor seguí las instrucciones del mismo.'
             }).catch(console.log);
         }
     }

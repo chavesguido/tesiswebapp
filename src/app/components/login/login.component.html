@@ -82,6 +82,9 @@
                          <div *ngIf="( alertaNuevaCuenta && alertaNuevaCuenta != 'success')" class="alert alert-danger">
                             <strong>Ups!</strong> {{alertaNuevaCuenta}}
                         </div>
+                        <div *ngIf="( infoNuevaCuenta )" class="info alert-info">
+                            {{infoNuevaCuenta}}
+                        </div>
                     </div>
                 </form>
             </div>
