@@ -24,8 +24,16 @@ export class RestNuevaCuentaService {
 				dni: NuevaCuenta.dni,
 				email: NuevaCuenta.email
 			})
-		}).then(response =>  response.json())
-		.catch(console.log);
+		})
+		.then((response) =>  {
+			if(response.status == 200)
+				return response.json();
+			else
+				return response.status;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 	}
 
 }

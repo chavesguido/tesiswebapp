@@ -45,19 +45,19 @@ export default class NuevaCuenta {
 
 	//Validar que la pass tenga al menos un digito, al menos una minuscula, al menos una mayuscula y al menos 8 caracteres
 	public validarPassword(password:string): boolean {
-		const regExp = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+		const regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
 		return regExp.test(password);
 	}
 
 	// Valida si un input es sólo números
     public validarNumeros(input:string): boolean {
-        const regEx = new RegExp("^[0-9]*$");
+        const regEx = /^[0-9]*$/;
         return regEx.test(input);
     }
 
-    // Valida si un input ingresado es solo letras
+    // Valida si un input ingresado es solo letras y espacios en blanco
     public validarLetras(input: string): boolean {
-    	const regEx = new RegExp("^[a-zA-Z]*$");
+    	const regEx = /^[a-zA-Z\s]*$/;
     	return regEx.test(input);
     }
 

@@ -15,8 +15,8 @@
         			<div class="form-group">
             			<input type="password" class="form-control" required placeholder="Contraseña" [(ngModel)]="loginInfo.password" #password="ngModel" name="password">
         			</div>
-                    <div *ngIf="(alerta && (!loginInfo.dni || !loginInfo.password)) || alerta" class="alert alert-danger">
-                        <strong>Ups!</strong> {{alerta}}
+                    <div *ngIf="(alertaLogin && (!loginInfo.dni || !loginInfo.password)) || alertaLogin" class="alert alert-danger">
+                        <strong>Ups!</strong> {{alertaLogin}}
                     </div>
         			<div class="forgot">
         				<a href="reset.html">Olvidaste tu contraseña?</a>
@@ -79,14 +79,14 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                         <div *ngIf="( alerta && alerta != 'success')" class="alert alert-danger">
-                            <strong>Ups!</strong> {{alerta}}
+                         <div *ngIf="( alertaNuevaCuenta && alertaNuevaCuenta != 'success')" class="alert alert-danger">
+                            <strong>Ups!</strong> {{alertaNuevaCuenta}}
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" (click)="postNuevaCuenta();" class="btn btn-primary" data-dismiss="modal">Generar cuenta</button>
+                <button type="button" (click)="postNuevaCuenta();" class="btn btn-primary">Generar cuenta</button>
             </div>
         </div>
     </div>

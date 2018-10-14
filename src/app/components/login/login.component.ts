@@ -31,8 +31,11 @@ export class LoginComponent implements OnInit {
         "password": null
     }
 
-    // Property usada para ir determinando si hay una alerta cual es
-    alerta: string = undefined;
+    // Property usada para ir determinando si hay una alerta en el form de login cual es
+    alertaLogin: string = undefined;
+
+    // Property usada para ir determinando si hay una alerta en el form de nueva cuenta cual es
+    alertaNuevaCuenta: string = undefined;
 
 	constructor( private router: Router,
                  private restLoginService: RestLoginService,
@@ -146,12 +149,11 @@ export class LoginComponent implements OnInit {
 
     // Validación de los datos del formulario de login y llamada al servicio de login
     postLogin = () => {
-        let dni = this.loginInfo.dni;
-        let password = this.loginInfo.password;
+        const { dni, password } = this.loginInfo;
         if(dni && password && this.dniValido(dni)){
             this.restLoginService.login(dni, password).then((data) => {
                 if(data == 400){
-                    this.alerta = "Usuario o contraseña incorrectos.";
+                    this.alertaLogin = "Usuario o contraseña incorrectos.";
                     return;
                 }
                 if(data.usuarioId && data.usuario_rol && data.success == 'true'){
@@ -161,19 +163,23 @@ export class LoginComponent implements OnInit {
                 }
             }).catch(console.log);
         } else if(!dni || !password)
-                this.alerta = "Debe completar todos los datos";
+                this.alertaLogin = "Debe completar todos los datos";
                else 
-                this.alerta = "El DNI ingresado no es un DNI válido";
+                this.alertaLogin = "El DNI ingresado no es un DNI válido";
     }
 
     // Validación de los datos del formulario de nueva cuenta y llamada al servicio de nueva cuenta.
     postNuevaCuenta = () => {
-        this.alerta = this.nuevaCuenta.validarDatos();
-        if(this.alerta == 'success'){
+        this.alertaNuevaCuenta = this.nuevaCuenta.validarDatos();
+        if(this.alertaNuevaCuenta == 'success'){
             this.restNuevaCuentaService.crearNuevaCuenta(this.nuevaCuenta)
-            .then((data) => {
-                if(data == 'success')
-                    this.router.navigate(['/home']);
+            .then((response) => {
+                if(response == 400)
+                    this.alertaNuevaCuenta = 'Error conectando con el servidor.';
+                if(response == 500)
+                    this.alertaNuevaCuenta = 'Error interno del servidor. Intente mas tarde';
+                console.log(response);
+                this.router.navigate(['/home']);
             }).catch(console.log);
         }
     }
