@@ -174,7 +174,7 @@ export class LoginComponent implements OnInit {
 
     // Valida si el codigo ingresado es solo numeros
     validarCodigo(input: string): boolean {
-        const regEx = new RegExp("^[0-9]*$");
+        const regEx = /(?=.*[0-9])(?=.{6,})/;
         return regEx.test(input);
     } 
 
@@ -201,7 +201,7 @@ export class LoginComponent implements OnInit {
         const { dni, password } = this.loginInfo;
         if(dni && password && this.dniValido(dni)){
             this.restLoginService.login(dni, password).then((data) => {
-                if(data == 400 ){
+                if(data == 400 || data == 404){
                     this.alertaLogin = "Usuario o contraseña incorrectos.";
                     return;
                 }
@@ -223,10 +223,17 @@ export class LoginComponent implements OnInit {
         if(this.alertaNuevaCuenta == 'success'){
             this.restNuevaCuentaService.crearNuevaCuenta(this.nuevaCuenta)
             .then((response) => {
-                if(response == 400 || response == 404)
+                if(response == 400 || response == 404){
+                    this.infoNuevaCuenta = undefined;
                     this.alertaNuevaCuenta = 'Error conectando con el servidor.';
-                if(response == 500)
+                    return;
+                }
+                if(response == 500){
+                    this.infoNuevaCuenta = undefined;
                     this.alertaNuevaCuenta = 'Error interno del servidor. Intente más tarde.';
+                    return;
+                }
+                this.alertaNuevaCuenta = undefined;
                 this.infoNuevaCuenta = 'Gracias por confiar en nosotros, solo necesitás realizar un paso más para completar tu registro. Hemos enviado un email a tu casilla de correos. Por favor seguí las instrucciones del mismo.'
             }).catch(console.log);
         }
@@ -237,17 +244,20 @@ export class LoginComponent implements OnInit {
             this.restLoginService.olvidoPassword(this.emailOlvidoPassword)
             .then((response) => {
                 if(response == 400 || response == 404){
+                    this.infoOlvidoPassword = undefined;
                     this.alertaOlvidoPassword = 'Error conectando con el servidor.';
                     return;
                 }
                 if(response == 500){
+                    this.infoOlvidoPassword = undefined;
                     this.alertaOlvidoPassword = 'Error interno del servidor. Intente más tarde.';
                     return;
                 }
+                this.alertaOlvidoPassword = undefined;
                 this.infoOlvidoPassword = 'Hemos enviado un email con un código de 6 dígitos a su correo. Por favor ingréselo a continuación.';
                 this.mailEnviadoOlvidoPassword = true;
             }).catch(console.log);
-        } else if(!this.validarEmail(this.emailOlvidoPassword))
+        } else if(!this.validarEmail(this.emailOlvidoPassword) || !this.validarEmail(this.emailOlvidoPassword))
                 this.alertaOlvidoPassword = 'El email ingresado no es un email válido.';
     }
 
@@ -256,18 +266,23 @@ export class LoginComponent implements OnInit {
             this.restLoginService.confirmCodigoPassword(this.codigoVerificacionPassword)
             .then((response) => {
                 if(response == 400 || response == 404){
+                    this.infoVerificacionPassword = undefined;
                     this.alertaVerificacionPassword = 'Error conectando con el servidor.';
                     return;
                 }
                 if(response == 500){
+                    this.infoVerificacionPassword = undefined;
                     this.alertaVerificacionPassword = 'Error interno del servidor. Intente más tarde.';
                     return;
                 }
+                this.alertaVerificacionPassword = undefined;
                 this.infoVerificacionPassword = 'Ingrese su nueva contraseña.';
                 this.codigoEnviado = true;
             }).catch(console.log);
-        } else if(!this.codigoVerificacionPassword)
+        } else {
+            if(!this.codigoVerificacionPassword || !this.validarCodigo(this.codigoVerificacionPassword))
                 this.alertaVerificacionPassword = 'El código ingresado no es un código válido.';
+        }
     }
 
     postChangePassword = () => {
@@ -291,6 +306,7 @@ export class LoginComponent implements OnInit {
                 this.alertaResetPassword = 'Las contraseñas no coinciden.';
             if(!this.validarPassword(this.resetPassword.password))
                 this.alertaResetPassword = 'La contraseña no es válida. Recuerde que debe contener al menos 1 dígito, 1 letra en mayúscula, 1 en minúscula y una longitud de 8 caracteres como mínimo.';
+        }
     }
 
 }

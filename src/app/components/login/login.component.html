@@ -107,37 +107,37 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form *ngIf="(!mailEnviadoOlvidoPassword && !codigoEnviado)" #olvidoPasswordForm="ngForm">
+                <form *ngIf="(!mailEnviadoOlvidoPassword && !codigoEnviado)" #olvidoPasswordForm="ngForm" style="margin-top:10px;">
                     <div class="row form-group col-md-12">
                         <div class="col-md-8">
                             <label class="control-label">Email:</label><input type="text" class="form-control" [(ngModel)]="emailOlvidoPassword" #email="ngModel" name="email" placeholder="Ingresá tu email">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                </form>
+                <div class="col-md-12">
                         <div *ngIf="( alertaOlvidoPassword )" class="alert alert-danger">
                             {{alertaOlvidoPassword}}
                         </div>
                         <div *ngIf="( infoOlvidoPassword )" class="info alert-info">
                             {{infoOlvidoPassword}}
                         </div>
-                    </div>
-                </form>
-                <form *ngIf="(mailEnviadoOlvidoPassword)" #codigoForm="ngForm">
+                </div>
+                <form *ngIf="(mailEnviadoOlvidoPassword)" #codigoForm="ngForm" style="margin-top:10px;">
                     <div class="row form-group col-md-12">
                         <div class="col-md-8">
                             <label class="control-label">Código de verificación:</label><input type="text" class="form-control" [(ngModel)]="codigoVerificacionPassword" #codigo="ngModel" name="codigo" placeholder="Ingresá el código envidado.">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                </form>
+                <div class="col-md-12">
                         <div *ngIf="( alertaVerificacionPassword )" class="alert alert-danger">
                             {{alertaVerificacionPassword}}
                         </div>
                         <div *ngIf="( infoVerificacionPassword )" class="info alert-info">
                             {{infoVerificacionPassword}}
                         </div>
-                    </div>
-                </form>
-                <form *ngIf="(codigoEnviado)" #resetPasswordForm="ngForm">
+                </div>
+                <form *ngIf="(codigoEnviado)" #resetPasswordForm="ngForm" style="margin-top:10px;">
                     <div class="row form-group col-md-12">
                         <div class="col-md-6">
                             <label class="control-label">Contraseña:</label><input type="password" class="form-control" [(ngModel)]="resetPassword.password" #password="ngModel" name="password">
@@ -146,21 +146,21 @@
                             <label class="control-label">Confirmar contraseña:</label><input type="password" class="form-control" [(ngModel)]="resetPassword.confirmPassword" #confirmPassword="ngModel" name="confirmPassword">
                         </div>
                     </div>
-                    <div class="col-md-12">
+                </form>
+                <div class="col-md-12">
                         <div *ngIf="( alertaResetPassword )" class="alert alert-danger">
                             {{alertaResetPassword}}
                         </div>
                         <div *ngIf="( infoResetPassword )" class="info alert-info">
                             {{infoResetPassword}}
                         </div>
-                    </div>
-                </form>
+                </div>
             </div>
             <div *ngIf="(!mailEnviadoOlvidoPassword && !codigoEnviado)" class="modal-footer">
                 <button type="button" (click)="postOlvidoPassword();" class="btn btn-primary">Buscar</button>
             </div>
             <div *ngIf="(mailEnviadoOlvidoPassword && !codigoEnviado)" class="modal-footer">
-                <button type="button" (click)="postConfirmarCodigo(); infoOlvidoPassword = undefined; alertaOlvidoPassword = undefined; mailEnviadoOlvidoPassword = false;" class="btn btn-primary">Enviar codigo</button>
+                <button type="button" (click)="postConfirmarCodigo(); infoOlvidoPassword = undefined; alertaOlvidoPassword = undefined;" class="btn btn-primary">Enviar codigo</button>
             </div>
             <div *ngIf="(codigoEnviado)" class="modal-footer">
                 <button type="button" (click)="postChangePassword(); infoVerificacionPassword = undefined; alertaVerificacionPassword = undefined;" class="btn btn-primary">Cambiar contraseña</button>
