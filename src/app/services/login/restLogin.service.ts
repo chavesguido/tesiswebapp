@@ -27,4 +27,56 @@ export class RestLoginService {
 		.catch(console.log);
 	}
 
+	// Olvido de password
+	olvidoPassword (email) {
+		return fetch(`${url}/olvidoPassword`, {
+			method: 'post',
+			headers: {'Content-type': 'application/json'},
+			body: JSON.stringify({
+				email
+			})
+		}).then((response) => {
+			if(response.status == 200)
+				return response.json();
+			else
+				return response.status;
+		})
+		.catch(console.log);
+	}
+
+	// Confirm codigo password
+	confirmCodigoPassword (codigo) {
+		return fetch(`${url}/confirmCodigoPassword`, {
+			method: 'post',
+			headers: {'Content-type': 'application/json'},
+			body: JSON.stringify({
+				codigo
+			})
+		}).then((response) => {
+			if(response.status == 200)
+				return response.json();
+			else
+				return response.status;
+		})
+		.catch(console.log);
+	}
+
+	// Confirm codigo password
+	changePassword (password, email) {
+		return fetch(`${url}/changePassword`, {
+			method: 'post',
+			headers: {'Content-type': 'application/json'},
+			body: JSON.stringify({
+				password,
+				email
+			})
+		}).then((response) => {
+			if(response.status == 200)
+				return response.json();
+			else
+				return response.status;
+		})
+		.catch(console.log);
+	}
+
 }
