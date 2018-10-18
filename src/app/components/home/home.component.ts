@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './home.component.html',
-  styleUrls: []
+  selector: 'home',
+  templateUrl: './home.component.html'
 })
+
 export class HomeComponent {
-	
-	
+
+  constructor() { }
+
 }

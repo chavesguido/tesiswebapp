@@ -1,3 +1,51 @@
-<p>
-  header works!
-</p>
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">S.U.M.AR.</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto" *ngIf="(rol == 'paciente')">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/consultas" routerLinkActive="active">Mis Consultas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/estudios" routerLinkActive="active">Mis Estudios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Mis Datos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login">Cerrar Sesión</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto" *ngIf="(rol == 'medico')">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/medico/pacientes" routerLinkActive="active">Mis Pacientes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home" routerLinkActive="active">Cambiar a portal Paciente</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login">Cerrar Sesión</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto" *ngIf="(rol == 'administrador')">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/admin/medicos" routerLinkActive="active">Médicos adheridos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin/pacientes" routerLinkActive="active">Pacientes adheridos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin/usuarios" routerLinkActive="active">Usuarios adheridos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin/centros" routerLinkActive="active">Centros Médicos adheridos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/login">Cerrar Sesión</a>
+      </li>
+    </ul>
+  </div>
+</nav>

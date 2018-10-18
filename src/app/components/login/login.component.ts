@@ -205,10 +205,17 @@ export class LoginComponent implements OnInit {
                     this.alertaLogin = "Usuario o contraseña incorrectos.";
                     return;
                 }
+                if(data == 403){
+                    this.alertaLogin = "El usuario no se encuenta activo. Por favor verificar el email enviado a su casilla de correos.";
+                    return;
+                }
+                if(data == 500){
+                    this.alertaLogin = "Error conectando con el servidor. Verifique que los datos ingresados son correctos. Si el error persiste intente más tarde.";
+                    return;
+                }
                 if(data.usuarioId && data.usuario_rol && data.success == 'true'){
                     this.guardarSesion(data.token, data.usuario_rol);
-                    if(data.usuario_rol == 'paciente')
-                       this.router.navigate(['/home']);
+                    this.router.navigate(['/home']);
                 }
             }).catch(console.log);
         } else if(!dni || !password)
@@ -223,9 +230,9 @@ export class LoginComponent implements OnInit {
         if(this.alertaNuevaCuenta == 'success'){
             this.restNuevaCuentaService.crearNuevaCuenta(this.nuevaCuenta)
             .then((response) => {
-                if(response == 400 || response == 404){
+                if(response == 400){
                     this.infoNuevaCuenta = undefined;
-                    this.alertaNuevaCuenta = 'Error conectando con el servidor.';
+                    this.alertaNuevaCuenta = 'Ya existe un usuario con el DNI o email ingresados. Si el problema persiste comunicarse con mesa de ayuda';
                     return;
                 }
                 if(response == 500){

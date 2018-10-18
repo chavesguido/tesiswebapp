@@ -5,6 +5,8 @@ import { url } from '../rest.conf';
 @Injectable()
 export class RestLoginService {
 
+	isLoggedIn:boolean = false;
+
 	constructor( private http: Http) {
 
 	} 
@@ -19,8 +21,10 @@ export class RestLoginService {
 				password
 			})
 		}).then((response) =>  { 
-			if(response.status == 200) 
+			if(response.status == 200){
+				this.isLoggedIn = true;
 				return response.json();
+			}
 			else 
 				return response.status; 
 		})
