@@ -83,4 +83,25 @@ export class RestLoginService {
 		.catch(console.log);
 	}
 
+	// Cierre de sesion
+	cerrarSesion (token) {
+		return fetch(`${url}/cerrarSesion`, {
+			method: 'post',
+			headers: {
+				'Content-type': 'application/json',
+				'authorization': window.sessionStorage.getItem('token')
+			},
+			body: JSON.stringify({
+				token
+			})
+		}).then((response) => {
+			if(response.status == 200)
+				return response.json();
+			else
+				return response.status;
+		})
+		.catch(console.log);
+	}
+
+
 }

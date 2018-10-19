@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+//Services
+import { RestLoginService } from '../../services/login/restLogin.service';
+
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
@@ -9,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   rol: string = undefined;
 
-  constructor() { }
+  constructor(private restLoginService: RestLoginService) { }
 
   ngOnInit() {
   	this.rol = this.leerRol();
@@ -17,6 +20,17 @@ export class HeaderComponent implements OnInit {
 
   leerRol = () => {
   	return window.sessionStorage.getItem('rol');
+  }
+
+  cerrarSesion = () => {
+    //agarro el token del session storage
+    const token = window.sessionStorage.getItem('token');
+    // lo elimino y elimino el rol del session storage
+    window.sessionStorage.removeItem('token');
+    window.sessionStorage.removeItem('rol');
+    if(token)
+      this.restLoginService.cerrarSesion(token);
+    return;
   }
 
 }
