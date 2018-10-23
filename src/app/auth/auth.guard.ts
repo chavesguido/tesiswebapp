@@ -7,6 +7,9 @@ import { RestLoginService } from '../services/login/restLogin.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+
+  private roles = [];
+  private rol: string = undefined;
   
   constructor(private restLoginService: RestLoginService, private router: Router){
 
@@ -15,7 +18,21 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.checkLogin();
+
+    this.roles = next.data["roles"];
+    this.rol = window.sessionStorage.getItem('rol');
+
+    if(!this.rol || this.roles.length == 0){
+      return false;
+    }
+
+    if(this.checkLogin()){
+      if(this.roles.includes('all'))
+        return true;
+    } else {
+      return false;
+    }
+
   }
 
   checkLogin () {
@@ -25,4 +42,5 @@ export class AuthGuard implements CanActivate {
   		return false;
   	}
   }
+  
 }

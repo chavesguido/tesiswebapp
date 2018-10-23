@@ -11,25 +11,33 @@ import { RestLoginService } from '../../services/login/restLogin.service';
 export class HeaderComponent implements OnInit {
 
   rol: string = undefined;
+  id_usuario: string = undefined;
 
   constructor(private restLoginService: RestLoginService) { }
 
   ngOnInit() {
   	this.rol = this.leerRol();
+    this.id_usuario = this.leerIdUsuario();
   }
 
   leerRol = () => {
   	return window.sessionStorage.getItem('rol');
   }
 
+  leerIdUsuario = () => {
+    return window.sessionStorage.getItem('id_usuario');
+  }
+
   cerrarSesion = () => {
     //agarro el token del session storage
     const token = window.sessionStorage.getItem('token');
-    // lo elimino y elimino el rol del session storage
-    window.sessionStorage.removeItem('token');
-    window.sessionStorage.removeItem('rol');
-    if(token)
+    if(token){
       this.restLoginService.cerrarSesion(token);
+      window.sessionStorage.removeItem('token');
+      window.sessionStorage.removeItem('rol');
+      window.sessionStorage.removeItem('id_usuario');
+    }
+    
     return;
   }
 

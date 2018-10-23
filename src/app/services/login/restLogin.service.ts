@@ -15,7 +15,7 @@ export class RestLoginService {
 	login (dni, password) {
 		return fetch(`${url}/logIn`, {
 			method: 'post',
-			headers: {'Content-Type': 'application/json'},
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				dni,
 				password
@@ -94,6 +94,25 @@ export class RestLoginService {
 			body: JSON.stringify({
 				token
 			})
+		}).then((response) => {
+			if(response.status == 200)
+				return response.json();
+			else
+				return response.status;
+		})
+		.catch(console.log);
+	}
+
+
+	// Obtener los datos del usuario conectado
+	obtenerPerfil() {
+		return fetch(`${url}/perfil/${window.sessionStorage.getItem('id_usuario')}`, {
+			method: 'get',
+			headers: {
+				'Content-type': 'application/json',
+				'authorization': window.sessionStorage.getItem('token'),
+				'rol': window.sessionStorage.getItem('rol')
+			}
 		}).then((response) => {
 			if(response.status == 200)
 				return response.json();

@@ -191,9 +191,10 @@ export class LoginComponent implements OnInit {
     }
 
     // Guardo token y rol en sessionStorage
-    guardarSesion = (token, rol) => {
+    guardarSesion = (token, rol, id_usuario) => {
         window.sessionStorage.setItem('token', token);
         window.sessionStorage.setItem('rol', rol);
+        window.sessionStorage.setItem('id_usuario', id_usuario);
     }
 
     // Validación de los datos del formulario de login y llamada al servicio de login
@@ -213,9 +214,13 @@ export class LoginComponent implements OnInit {
                     this.alertaLogin = "Error conectando con el servidor. Verifique que los datos ingresados son correctos. Si el error persiste intente más tarde.";
                     return;
                 }
-                if(data.usuarioId && data.usuario_rol && data.success == 'true'){
-                    this.guardarSesion(data.token, data.usuario_rol);
+                if(data.id_usuario && data.token && data.usuario_rol && data.success == 'true'){
+                    this.guardarSesion(data.token, data.usuario_rol, data.id_usuario);
                     this.router.navigate(['/home']);
+                } else {
+                    if(data.token){
+                        this.router.navigate(['/home']);
+                    }
                 }
             }).catch(console.log);
         } else if(!dni || !password)

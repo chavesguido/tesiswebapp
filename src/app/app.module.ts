@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 //Services y guards
 import { RestLoginService } from './services/login/restLogin.service';
@@ -27,7 +28,8 @@ import { APP_ROUTING } from './app.routes';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
